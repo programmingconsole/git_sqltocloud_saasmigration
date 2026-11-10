@@ -1,0 +1,6 @@
+{
+	"name": "IRsaasmigration",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
