@@ -1,0 +1,16 @@
+{
+	"name": "dssaasmigration",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSsaamigrationsqlIN",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Production",
+			"table": "vProductModelInstructions"
+		}
+	}
+}
