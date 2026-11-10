@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfdevsaasmigration"
+		},
+		"LSsaamigrationsqlIN_password": {
+			"value": ""
+		},
+		"LSsaamigrationsqlIN_properties_typeProperties_server": {
+			"value": "DESKTOP-I7LH4I8\\SQLEXPRESS"
+		},
+		"LSsaamigrationsqlIN_properties_typeProperties_database": {
+			"value": "AdventureWorks2025"
+		},
+		"LSsaamigrationsqlIN_properties_typeProperties_userName": {
+			"value": "saassqlserver"
+		}
+	}
+}
