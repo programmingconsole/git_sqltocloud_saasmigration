@@ -1,0 +1,21 @@
+{
+	"name": "LSsaamigrationsqlIN",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "DESKTOP-I7LH4I8\\SQLEXPRESS",
+			"database": "dbsaasmigration",
+			"encrypt": "optional",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "saassqlserver",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4MzdhYmRlMy1kMGI2LTRhNWItODNhYi0wNDVhZjJlODI0ZjQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRsaasmigration",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
