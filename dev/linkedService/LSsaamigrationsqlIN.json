@@ -6,12 +6,12 @@
 		"type": "SqlServer",
 		"typeProperties": {
 			"server": "DESKTOP-I7LH4I8\\SQLEXPRESS",
-			"database": "AdventureWorks2025",
+			"database": "sqlmigration",
 			"encrypt": "optional",
 			"trustServerCertificate": false,
 			"authenticationType": "SQL",
 			"userName": "saassqlserver",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2N2Y3YzNkZS1lODMwLTQ5ZDAtODNmNC0yNGNhYWEwYTY5YzgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3YzkwYzYzOS0yM2NjLTRmMzItYmQxNS1jMGQ2NTkyOGYzOTIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "IRsaasmigration",
