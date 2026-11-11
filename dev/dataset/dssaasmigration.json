@@ -7,10 +7,6 @@
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "Production",
-			"table": "vProductModelInstructions"
-		}
+		"schema": []
 	}
 }

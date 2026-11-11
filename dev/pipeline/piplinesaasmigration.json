@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "lukupsaasmigration",
+				"name": "lukupsqlmigration_watermark_read",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -17,12 +17,33 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT TableSchema,TableName,WatermarkColumn,LastLoadValue FROM dbo.ADF_Watermark_Table;",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "dssaasmigration",
 						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "lukupsqlmigration_watermark_read",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('lukupsqlmigration_watermark_read').output.value",
+						"type": "Expression"
 					}
 				}
 			}
