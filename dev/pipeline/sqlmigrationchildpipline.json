@@ -17,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT\nMAX(@{pipeline().parameters.Watermark\nColumn}) AS MaxValue\nFROM\n@{pipeline().parameters.TableSchema}.@\n{pipeline().parameters.TableName}",
+						"sqlReaderQuery": {
+							"value": "SELECT\nMAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue\nFROM\n@{pipeline().parameters.TableSchema}.@\n{pipeline().parameters.TableName}",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
