@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LSsaamigrationsqlIN'"
 		},
+		"adls_parqet_sql_migrated_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'adls_parqet_sql_migrated'"
+		},
 		"LSsaamigrationsqlIN_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "DESKTOP-I7LH4I8\\SQLEXPRESS"
@@ -22,6 +26,10 @@
 		"LSsaamigrationsqlIN_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "saassqlserver"
+		},
+		"adls_parqet_sql_migrated_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdevsaasmigration.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -50,8 +58,14 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"adls_parqet_sql_migrated_accountKey": {
+						"value": "[parameters('adls_parqet_sql_migrated_accountKey')]"
+					},
 					"LSsaamigrationsqlIN_password": {
 						"value": "[parameters('LSsaamigrationsqlIN_password')]"
+					},
+					"adls_parqet_sql_migrated_properties_typeProperties_url": {
+						"value": "[parameters('adls_parqet_sql_migrated_properties_typeProperties_url')]"
 					},
 					"LSsaamigrationsqlIN_properties_typeProperties_server": {
 						"value": "[parameters('LSsaamigrationsqlIN_properties_typeProperties_server')]"

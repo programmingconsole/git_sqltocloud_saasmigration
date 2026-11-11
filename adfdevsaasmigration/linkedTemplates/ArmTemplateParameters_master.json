@@ -8,6 +8,9 @@
 		"LSsaamigrationsqlIN_password": {
 			"value": ""
 		},
+		"adls_parqet_sql_migrated_accountKey": {
+			"value": ""
+		},
 		"LSsaamigrationsqlIN_properties_typeProperties_server": {
 			"value": "DESKTOP-I7LH4I8\\SQLEXPRESS"
 		},
@@ -16,6 +19,9 @@
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_userName": {
 			"value": "saassqlserver"
+		},
+		"adls_parqet_sql_migrated_properties_typeProperties_url": {
+			"value": "https://adlsdevsaasmigration.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
