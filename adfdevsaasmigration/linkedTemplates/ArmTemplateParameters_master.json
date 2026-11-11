@@ -12,7 +12,7 @@
 			"value": "DESKTOP-I7LH4I8\\SQLEXPRESS"
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_database": {
-			"value": "AdventureWorks2025"
+			"value": "sqlmigration"
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_userName": {
 			"value": "saassqlserver"

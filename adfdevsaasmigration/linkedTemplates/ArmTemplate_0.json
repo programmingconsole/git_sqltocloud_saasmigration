@@ -17,7 +17,7 @@
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "AdventureWorks2025"
+			"defaultValue": "sqlmigration"
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_userName": {
 			"type": "string",
@@ -78,9 +78,41 @@
 				"annotations": [],
 				"type": "SqlServerTable",
 				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSsaamigrationsqlIN')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_maxvalue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSsaamigrationsqlIN",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"schemaname": {
+						"type": "string"
+					},
+					"tablename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
 				"typeProperties": {
-					"schema": "Production",
-					"table": "vProductModelInstructions"
+					"schema": {
+						"value": "@dataset().schemaname",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().tablename",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
@@ -88,13 +120,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/piplinesaasmigration')]",
+			"name": "[concat(parameters('factoryName'), '/sqlmigrationchildpipline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "lukupsaasmigration",
+						"name": "lokup_max_valueinwatermark",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -108,6 +140,75 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "SELECT\nMAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue\nFROM\n@{pipeline().parameters.TableSchema}.@\n{pipeline().parameters.TableName}",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "sql_maxvalue",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": {
+										"value": "@pipeline().parameters.TableSchema",
+										"type": "Expression"
+									},
+									"tablename": {
+										"value": "@pipeline().parameters.TableName",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"TableSchema": {
+						"type": "string"
+					},
+					"TableName": {
+						"type": "string"
+					},
+					"WatermarkColumn": {
+						"type": "string"
+					},
+					"LastLoadValue": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sql_maxvalue')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/piplinesaasmigration')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "lukupsqlmigration_watermark_read",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT TableSchema,TableName,WatermarkColumn,LastLoadValue FROM dbo.ADF_Watermark_Table;",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -115,7 +216,64 @@
 								"referenceName": "dssaasmigration",
 								"type": "DatasetReference",
 								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "lukupsqlmigration_watermark_read",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('lukupsqlmigration_watermark_read').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "executechildpipline",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "sqlmigrationchildpipline",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"TableSchema": {
+												"value": "@item().TableSchema",
+												"type": "Expression"
+											},
+											"TableName": {
+												"value": "@item().TableName",
+												"type": "Expression"
+											},
+											"WatermarkColumn": {
+												"value": "@item().WatermarkColumn",
+												"type": "Expression"
+											},
+											"LastLoadValue": {
+												"value": "@item().LastLoadValue",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
 						}
 					}
 				],
@@ -125,7 +283,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/dssaasmigration')]"
+				"[concat(variables('factoryId'), '/datasets/dssaasmigration')]",
+				"[concat(variables('factoryId'), '/pipelines/sqlmigrationchildpipline')]"
 			]
 		}
 	]

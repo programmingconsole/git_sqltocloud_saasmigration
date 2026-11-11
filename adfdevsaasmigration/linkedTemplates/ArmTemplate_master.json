@@ -17,7 +17,7 @@
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "AdventureWorks2025"
+			"defaultValue": "sqlmigration"
 		},
 		"LSsaamigrationsqlIN_properties_typeProperties_userName": {
 			"type": "string",
