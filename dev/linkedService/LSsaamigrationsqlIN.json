@@ -1,6 +1,5 @@
 {
 	"name": "LSsaamigrationsqlIN",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "SqlServer",
@@ -11,11 +10,19 @@
 			"trustServerCertificate": false,
 			"authenticationType": "SQL",
 			"userName": "saassqlserver",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3YzkwYzYzOS0yM2NjLTRmMzItYmQxNS1jMGQ2NTkyOGYzOTIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "testadf2"
+			}
 		},
 		"connectVia": {
 			"referenceName": "IRsaasmigration",
 			"type": "IntegrationRuntimeReference"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
